@@ -37,7 +37,11 @@ const CheckoutOverview = () => {
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
     let productInCart = cart.find((product: CartProduct) => product.id === id);
-
+    
+    if (productInCart) {
+      productInCart.quantity = Math.max(1,quantity);
+    }
+    
     if (productInCart.quantity >= productInCart.rebateQuantity) {
       productInCart.price =
         productInCart.originalPrice * (1 - productInCart.rebatePercent / 100);
@@ -46,7 +50,6 @@ const CheckoutOverview = () => {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    productInCart.quantity = Math.max(1, quantity);
     setCart(cart);
   };
 
